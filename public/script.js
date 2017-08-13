@@ -14,7 +14,10 @@ window.onload = function () {
   var format = document.getElementById('format'),
       output = document.getElementById('output'),
       loader = document.getElementById('loader'),
-      editor = CodeMirror.fromTextArea(document.getElementById('input'), {mode: "php"}),
+      editor = CodeMirror.fromTextArea(
+        document.getElementById('input'),
+        { mode: 'php', lineNumbers: true, indentUnit: 4 }
+      ),
       postJson = function (url, urlQuery, done) {
         var request = new XMLHttpRequest();
         request.open('POST', url, true);
@@ -26,12 +29,12 @@ window.onload = function () {
         };
         request.send(urlQuery);
       },
-      refresh = function () {
+      doRefresh = function () {
         loader.style.display = 'block';
         postJson(
             'process.php',
             'format=' + encodeURIComponent(format.value)
-              + '&code=' + encodeURIComponent(editor.getValue()),
+            + '&code=' + encodeURIComponent(editor.getValue()),
             function (result) {
               loader.style.display = 'none';
               if (result.code) {
@@ -44,6 +47,20 @@ window.onload = function () {
                 alert('An error has occurred (see details in console).');
               }
             }
+        );
+      },
+      refreshTimer = null,
+      refresh = function () {
+        if(refreshTimer){
+          clearTimeout(refreshTimer);
+        }
+
+        refreshTimer = setTimeout(
+            function () {
+              refreshTimer = null;
+              doRefresh();
+            },
+            1000
         );
       };
 
