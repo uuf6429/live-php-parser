@@ -1,0 +1,15 @@
+{
+  "name": "uuf6429/live-php-parser",
+  "description": "Live PHP Parser.",
+  "type": "project",
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "Christian Sciberras",
+      "email": "christian@sciberras.me"
+    }
+  ],
+  "require": {
+    "nikic/php-parser": "^3.1"
+  }
+}
